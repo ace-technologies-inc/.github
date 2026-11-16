@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>i3X Explorer - Desktop Client for I3X API Servers</title>
+    <title>i3X Explorer &#8211; ACE Technologies</title>
     <meta name="description" content="A cross-platform desktop application for browsing and monitoring I3X (Industrial Information Interface eXchange) API servers. Browse namespaces, object types, and instances with real-time subscriptions.">
     <meta name="keywords" content="I3X, CESMII, Ace Technologies, Industrial IoT, Manufacturing, API Explorer, Desktop Client, OPC UA, MQTT">
 
@@ -14,559 +14,715 @@
     <meta property="og:type" content="website">
 
     <link rel="icon" type="image/png" href="icon-64.png">
+    <link rel="apple-touch-icon" href="../assets/uploads/2026/01/cropped-cropped-ACETechnologies-tag-180x180.png" />
+
+    <link rel='stylesheet' id='ace-google-fonts-css' href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&#038;family=Open+Sans:wght@400;500;600&#038;display=swap' media='all' />
+    <link rel='stylesheet' id='ace-style-css' href='../assets/css/style.css' media='all' />
 
     <style>
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #1e40af;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --bg: #ffffff;
-            --bg-alt: #f3f4f6;
-            --border: #e5e7eb;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgba(3, 40, 126, 0.673);
-        }
+        /* i3X Explorer page — builds on the site theme in assets/css/style.css */
+        .screen-reader-text { border: 0; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; word-wrap: normal !important; }
+        .screen-reader-text:focus { clip-path: none; height: auto; width: auto; left: 5px; top: 5px; padding: 15px 23px 14px; background: #ddd; color: #444; z-index: 100000; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background: var(--bg);
-        }
-
-        a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 80px 0 60px;
+        .i3x-section-head {
             text-align: center;
+            max-width: 680px;
+            margin: 0 auto 3rem;
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+        .i3x-section-head h2 {
+            margin-bottom: 0.75rem;
         }
 
-        .logo {
-            width: 128px;
-            height: 128px;
-            border-radius: 24px;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .hero .tagline {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: 32px;
-        }
-
-        .badges {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 32px;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255,255,255,0.15);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.875rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: white;
-            color: var(--primary-dark);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        /* Screenshots Section */
-        .screenshots {
-            padding: 60px 0;
-            background: var(--bg-alt);
-        }
-
-        .screenshots h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-        }
-
-        .screenshot-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .screenshot {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .screenshot:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .screenshot img {
-            width: 100%;
-            height: auto;
+        .i3x-section-head h2::after {
+            content: "";
             display: block;
+            width: 56px;
+            height: 4px;
+            background: var(--ace-green);
+            margin: 0.75rem auto 0;
         }
 
-        .screenshot-caption {
-            padding: 16px;
-            font-size: 0.875rem;
-            color: var(--text-light);
-            text-align: center;
+        .i3x-section-head p {
+            color: var(--ace-gray);
+            font-size: 1.0625rem;
+            margin: 0;
         }
 
-        /* Features Section */
-        .features {
-            padding: 80px 0;
+        /* Hero */
+        .i3x-hero {
+            background:
+                radial-gradient(ellipse at 85% 20%, rgba(98, 169, 69, 0.22), transparent 55%),
+                linear-gradient(135deg, var(--ace-blue) 0%, var(--ace-blue-dark) 100%);
+            color: var(--ace-white);
+            padding: 4.5rem 0;
         }
 
-        .features h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 16px;
-        }
-
-        .features .subtitle {
-            text-align: center;
-            color: var(--text-light);
-            margin-bottom: 48px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .feature-grid {
+        .i3x-hero__inner {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
+            grid-template-columns: auto 1fr;
+            gap: 3rem;
+            align-items: center;
         }
 
-        .feature {
-            text-align: center;
-            padding: 24px;
+        .i3x-hero__logo {
+            width: 168px;
+            height: 168px;
+            filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.35));
         }
 
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 16px;
+        .i3x-hero__title {
+            color: var(--ace-white);
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .i3x-hero__tagline {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            opacity: 0.9;
+            max-width: 820px;
+            margin-bottom: 1.5rem;
+        }
+
+        .i3x-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .i3x-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 999px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .i3x-badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ace-green);
+        }
+
+        .i3x-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .i3x-cta .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .i3x-cta svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Screenshots */
+        .i3x-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .i3x-shot {
+            margin: 0;
+        }
+
+        /* The screenshots carry their own window frame and shadow (transparent edges) */
+        .i3x-shot img {
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .i3x-shot:hover img {
+            transform: translateY(-4px);
+        }
+
+        .i3x-shot figcaption {
+            margin-top: 0.5rem;
+            padding-left: 0.85rem;
+            border-left: 3px solid var(--ace-green);
+            color: var(--ace-gray-dark);
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+
+        /* Features */
+        .i3x-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .i3x-feature {
+            background: var(--ace-white);
+            border: 1px solid var(--ace-gray-light);
+            border-radius: 8px;
+            padding: 1.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .i3x-feature:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border-color: transparent;
+        }
+
+        .i3x-feature__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: rgba(98, 169, 69, 0.12);
+            color: var(--ace-green-dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
-            font-size: 28px;
+            margin-bottom: 1.25rem;
         }
 
-        .feature h3 {
-            font-size: 1.25rem;
-            margin-bottom: 8px;
+        .i3x-feature__icon svg {
+            width: 24px;
+            height: 24px;
         }
 
-        .feature p {
-            color: var(--text-light);
-            font-size: 0.95rem;
+        .i3x-feature h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* Downloads Section */
-        .downloads {
-            padding: 80px 0;
-            background: var(--bg-alt);
+        .i3x-feature p {
+            color: var(--ace-gray);
+            font-size: 0.9375rem;
+            margin: 0;
         }
 
-        .downloads h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 16px;
+        /* Downloads */
+        .i3x-downloads .i3x-section-head p {
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .downloads .subtitle {
-            text-align: center;
-            color: var(--text-light);
-            margin-bottom: 48px;
-        }
-
-        .download-grid {
+        .i3x-download-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
             max-width: 1000px;
             margin: 0 auto;
         }
 
-        .download-card {
-            background: white;
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: var(--shadow);
+        .i3x-download-card {
+            background: var(--ace-white);
+            color: var(--ace-gray-dark);
+            border-radius: 8px;
+            padding: 1.75rem;
+            border-top: 4px solid var(--ace-green);
         }
 
-        .download-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
+        .i3x-download-card__head {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
         }
 
-        .download-card .platform-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
+        .i3x-download-card__head svg {
+            width: 28px;
+            height: 28px;
+            color: var(--ace-blue);
         }
 
-        .download-links {
+        .i3x-download-card h3 {
+            color: var(--ace-blue);
+            font-size: 1.375rem;
+            margin: 0;
+        }
+
+        .i3x-download-links {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 16px;
+            gap: 0.5rem;
         }
 
-        .download-link {
-            display: block;
-            padding: 10px 16px;
-            background: var(--bg-alt);
+        .i3x-download-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.9rem;
+            border: 1px solid var(--ace-gray-light);
             border-radius: 6px;
-            color: var(--text);
-            font-size: 0.875rem;
-            transition: background 0.2s;
+            color: var(--ace-gray-dark);
+            font-size: 0.9375rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
-        .download-link:hover {
-            background: var(--border);
-            text-decoration: none;
+        .i3x-download-link:hover {
+            border-color: var(--ace-green);
+            background-color: rgba(98, 169, 69, 0.06);
+            color: var(--ace-blue);
         }
 
-        .download-link code {
-            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-            font-size: 0.8rem;
+        .i3x-download-link code {
+            font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+            font-size: 0.75rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            background: var(--ace-gray-light);
+            color: var(--ace-blue);
+            white-space: nowrap;
         }
 
-        /* About Section */
-        .about {
-            padding: 80px 0;
-        }
-
-        .about-content {
+        /* About I3X */
+        .i3x-about {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
             align-items: center;
         }
 
-        .about h2 {
-            font-size: 2rem;
-            margin-bottom: 16px;
+        .i3x-about h2::after {
+            content: "";
+            display: block;
+            width: 56px;
+            height: 4px;
+            background: var(--ace-green);
+            margin-top: 0.75rem;
         }
 
-        .about p {
-            color: var(--text-light);
-            margin-bottom: 16px;
+        .i3x-about p {
+            color: var(--ace-gray);
+            font-size: 1.0625rem;
         }
 
-        .about ul {
+        .i3x-checklist {
             list-style: none;
-            margin-top: 24px;
+            padding: 0;
+            margin: 1.5rem 0 0;
         }
 
-        .about li {
-            padding: 8px 0;
-            padding-left: 28px;
+        .i3x-checklist li {
             position: relative;
+            padding: 0.45rem 0 0.45rem 2rem;
+            font-weight: 600;
+            color: var(--ace-blue);
         }
 
-        .about li::before {
-            content: "✓";
+        .i3x-checklist li::before {
+            content: "";
             position: absolute;
             left: 0;
-            color: var(--primary);
-            font-weight: bold;
+            top: 0.65rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--ace-green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 12px no-repeat;
         }
 
-        .about-image {
-            text-align: center;
-        }
-
-        .about-image img {
-            max-width: 100%;
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--text);
-            color: white;
-            padding: 48px 0;
-        }
-
-        .footer-content {
+        /* Footer links row */
+        .i3x-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 24px;
+            gap: 1.5rem;
+            padding-bottom: 2.5rem;
         }
 
-        .footer-links {
+        .i3x-footer__links {
             display: flex;
-            gap: 24px;
+            flex-wrap: wrap;
+            gap: 0.5rem 2rem;
         }
 
-        .footer-links a {
-            color: rgba(255,255,255,0.7);
+        .i3x-footer a {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
         }
 
-        .footer-links a:hover {
-            color: white;
+        .i3x-footer a:hover {
+            color: var(--ace-green);
         }
 
-        .footer-credit {
-            color: rgba(255,255,255,0.5);
+        .i3x-footer__credit {
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.875rem;
         }
 
-        .footer-credit a {
-            color: rgba(255,255,255,0.7);
+        .site-footer {
+            padding-top: 2.5rem;
         }
 
-        /* Responsive */
+        @media (max-width: 1024px) {
+            .i3x-gallery,
+            .i3x-features,
+            .i3x-download-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
+            .i3x-hero {
+                padding: 3rem 0;
             }
 
-            .hero .tagline {
-                font-size: 1rem;
+            .i3x-hero__inner {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
             }
 
-            .about-content {
+            .i3x-hero__logo {
+                width: 112px;
+                height: 112px;
+                margin: 0 auto;
+            }
+
+            .i3x-hero__title {
+                font-size: 2.25rem;
+            }
+
+            .i3x-hero__tagline {
+                font-size: 1.0625rem;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .i3x-badges,
+            .i3x-cta {
+                justify-content: center;
+            }
+
+            .i3x-gallery,
+            .i3x-features,
+            .i3x-download-grid,
+            .i3x-about {
                 grid-template-columns: 1fr;
             }
 
-            .about-image {
-                order: -1;
-            }
-
-            .footer-content {
+            .i3x-footer {
                 flex-direction: column;
                 text-align: center;
             }
+
+            .i3x-footer__links {
+                justify-content: center;
+            }
+        }
+
+        /* Screenshot lightbox */
+        .i3x-zoom {
+            display: block;
+            cursor: zoom-in;
+        }
+
+        .i3x-lightbox {
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .i3x-lightbox::backdrop {
+            background: rgba(15, 41, 64, 0.9);
+        }
+
+        .i3x-lightbox[open] {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: i3x-fade 0.2s ease;
+        }
+
+        @keyframes i3x-fade {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .i3x-lightbox__figure {
+            margin: 0;
+            padding: 0 4.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+        }
+
+        .i3x-lightbox__img {
+            max-width: min(100%, 1314px);
+            max-height: calc(100vh - 7rem);
+            width: auto;
+            height: auto;
+        }
+
+        .i3x-lightbox__caption {
+            margin-top: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9375rem;
+            text-align: center;
+        }
+
+        .i3x-lightbox__count {
+            color: rgba(255, 255, 255, 0.55);
+            margin-left: 0.5rem;
+        }
+
+        .i3x-lightbox__btn {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--ace-white);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .i3x-lightbox__btn:hover,
+        .i3x-lightbox__btn:focus-visible {
+            background: var(--ace-green);
+            outline: none;
+        }
+
+        .i3x-lightbox__btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .i3x-lightbox__close { top: 1rem; right: 1rem; }
+        .i3x-lightbox__prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+        .i3x-lightbox__next { right: 1rem; top: 50%; transform: translateY(-50%); }
+
+        @media (max-width: 768px) {
+            .i3x-lightbox__figure { padding: 0 0.75rem; }
+            .i3x-lightbox__prev,
+            .i3x-lightbox__next { top: auto; bottom: 1rem; transform: none; }
         }
     </style>
 </head>
-<body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <img src="icon-512.png" alt="i3X Explorer" class="logo">
+
+<body class="page wp-theme-ace-technologies singular">
+
+<div id="page" class="site">
+    <a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+
+    <header id="masthead" class="site-header">
+        <div class="header-inner">
+            <div class="site-branding">
+                <a href="../" class="site-logo" rel="home">
+                    <img src="../assets/images/ACETechnologies-tag.png" alt="ACE Technologies">
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="site-navigation" class="main-navigation">
+                <ul id="primary-menu" class="menu"><li id="menu-item-183" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-183"><a href="../i3x/" aria-current="page">I3X Explorer</a></li>
+<li id="menu-item-49" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-49"><a href="../services/">Services</a></li>
+<li id="menu-item-46" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-46"><a href="../partners/">Ecosystem</a></li>
+<li id="menu-item-50" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-50"><a href="../about/">About</a></li>
+</ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="content" class="site-content">
+
+<main id="primary" class="site-main">
+    <div class="page-header">
+        <div class="container">
             <h1>i3X Explorer</h1>
-            <p class="tagline">A cross-platform desktop client for browsing and monitoring I3X API servers. Like MQTT Explorer, but for industrial manufacturing data.</p>
-
-            <div class="badges">
-                <span class="badge">
-                    <span>Cross-Platform</span>
-                </span>
-                <span class="badge">
-                    <span>Open Source</span>
-                </span>
-                <span class="badge">
-                    <span>MIT License</span>
-                </span>
-            </div>
-
-            <div class="cta-buttons">
-                <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="btn btn-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    Download
-                </a>
-                <a href="https://github.com/ace-technologies-inc/i3X-Explorer" class="btn btn-secondary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                </a>
-            </div>
+            <nav class="breadcrumbs"><a href="../">Home</a> <span class="sep">/</span> <span class="current">i3X Explorer</span></nav>
         </div>
-    </section>
+    </div>
 
-    <!-- Screenshots Section -->
-    <section class="screenshots">
-        <div class="container">
-            <h2>See it in Action</h2>
-            <div class="screenshot-gallery">
-                <div class="screenshot">
-                    <img src="screenshots/tree-browsing.png" alt="Tree Browsing">
-                    <div class="screenshot-caption">Browse namespaces, object types, and instances in a hierarchical tree view</div>
+    <!-- Hero -->
+    <section class="i3x-hero">
+        <div class="container i3x-hero__inner">
+            <img src="icon-512.png" alt="i3X Explorer" class="i3x-hero__logo">
+            <div>
+                <h2 class="i3x-hero__title">i3X Explorer</h2>
+                <p class="i3x-hero__tagline">A cross-platform desktop client for browsing and monitoring I3X API servers. Contextual manufacturing information, standardized and visualized.</p>
+
+                <div class="i3x-badges">
+                    <span class="i3x-badge">Cross-Platform</span>
+                    <span class="i3x-badge">Open Source</span>
+                    <span class="i3x-badge">MIT License</span>
                 </div>
-                <div class="screenshot">
-                    <img src="screenshots/object-details.png" alt="Object Details">
-                    <div class="screenshot-caption">View detailed object metadata, values, and relationships</div>
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/subscriptions.png" alt="Real-time Subscriptions">
-                    <div class="screenshot-caption">Subscribe to objects and monitor real-time value updates with trend charts</div>
+
+                <div class="i3x-cta">
+                    <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="btn btn--primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download
+                    </a>
+                    <a href="https://github.com/ace-technologies-inc/i3X-Explorer" class="btn btn--secondary">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
+    <!-- Screenshots -->
+    <section class="section section--gray">
         <div class="container">
-            <h2>Features</h2>
-            <p class="subtitle">Everything you need to explore, monitor, and understand your I3X data infrastructure</p>
+            <div class="i3x-section-head">
+                <h2>See it in Action</h2>
+            </div>
+            <div class="i3x-gallery">
+                <figure class="i3x-shot">
+                    <a href="screenshots/tree-browsing.png" class="i3x-zoom"><img src="screenshots/tree-browsing.png" alt="Tree Browsing" loading="lazy"></a>
+                    <figcaption>Browse namespaces, object types, and instances in a hierarchical tree view</figcaption>
+                </figure>
+                <figure class="i3x-shot">
+                    <a href="screenshots/object-details.png" class="i3x-zoom"><img src="screenshots/object-details.png" alt="Object Details" loading="lazy"></a>
+                    <figcaption>View detailed object metadata, values, and relationships</figcaption>
+                </figure>
+                <figure class="i3x-shot">
+                    <a href="screenshots/subscriptions.png" class="i3x-zoom"><img src="screenshots/subscriptions.png" alt="Real-time Subscriptions" loading="lazy"></a>
+                    <figcaption>Subscribe to objects and monitor real-time value updates with trend charts</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
 
-            <div class="feature-grid">
-                <div class="feature">
-                    <div class="feature-icon">🌳</div>
+    <!-- Features -->
+    <section class="section">
+        <div class="container">
+            <div class="i3x-section-head">
+                <h2>Features</h2>
+                <p>Everything you need to explore, monitor, and understand your I3X data infrastructure</p>
+            </div>
+
+            <div class="i3x-features">
+                <div class="i3x-feature">
+                    <div class="i3x-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="6" height="5" rx="1"/><rect x="15" y="10" width="6" height="5" rx="1"/><rect x="15" y="17" width="6" height="5" rx="1"/><path d="M6 8v4a1 1 0 0 0 1 1h8"/><path d="M6 12v6a1 1 0 0 0 1 1h8"/></svg>
+                    </div>
                     <h3>Hierarchical Browsing</h3>
                     <p>Navigate namespaces, object types, and object instances in an intuitive tree structure</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">📊</div>
+                <div class="i3x-feature">
+                    <div class="i3x-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
                     <h3>Real-time Values</h3>
                     <p>View current values with quality indicators and timestamps in the standard VQT format</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🔔</div>
+                <div class="i3x-feature">
+                    <div class="i3x-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1a10 10 0 0 1 0-14.2"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>
+                    </div>
                     <h3>Subscriptions</h3>
                     <p>Subscribe to objects for live updates via SSE streaming or polling</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">📈</div>
+                <div class="i3x-feature">
+                    <div class="i3x-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>
+                    </div>
                     <h3>Trend Charts</h3>
                     <p>Visualize numeric values over time with built-in trend charting</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🔗</div>
+                <div class="i3x-feature">
+                    <div class="i3x-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11 16.7 6"/><path d="M7.3 13l9.4 5"/></svg>
+                    </div>
                     <h3>Relationship Graphs</h3>
                     <p>Explore object relationships with interactive graph visualization</p>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🔍</div>
-                    <h3>Search & Filter</h3>
+                <div class="i3x-feature">
+                    <div class="i3x-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                    <h3>Search &amp; Filter</h3>
                     <p>Quickly find objects by name with real-time filtering</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Downloads Section -->
-    <section class="downloads" id="downloads">
+    <!-- Downloads -->
+    <section class="section section--blue i3x-downloads" id="downloads">
         <div class="container">
-            <h2>Download</h2>
-            <p class="subtitle">Available for macOS, Windows, and Linux</p>
+            <div class="i3x-section-head">
+                <h2>Download</h2>
+                <p>Available for macOS, Windows, and Linux</p>
+            </div>
 
-            <div class="download-grid">
-                <div class="download-card">
-                    <div class="platform-icon">🍎</div>
-                    <h3>macOS</h3>
-                    <div class="download-links">
-                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="download-link">
+            <div class="i3x-download-grid">
+                <div class="i3x-download-card">
+                    <div class="i3x-download-card__head">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M1 20h22"/></svg>
+                        <h3>macOS</h3>
+                    </div>
+                    <div class="i3x-download-links">
+                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="i3x-download-link">
                             Apple Silicon (M1/M2/M3) <code>.dmg</code>
                         </a>
-                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="download-link">
+                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="i3x-download-link">
                             Intel <code>.dmg</code>
                         </a>
                     </div>
                 </div>
 
-                <div class="download-card">
-                    <div class="platform-icon">🪟</div>
-                    <h3>Windows</h3>
-                    <div class="download-links">
-                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="download-link">
-                            Installer<code>.exe</code>
+                <div class="i3x-download-card">
+                    <div class="i3x-download-card__head">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+                        <h3>Windows</h3>
+                    </div>
+                    <div class="i3x-download-links">
+                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="i3x-download-link">
+                            Installer <code>.exe</code>
                         </a>
-                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="download-link">
+                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="i3x-download-link">
                             Portable <code>.exe</code>
                         </a>
                     </div>
                 </div>
 
-                <div class="download-card">
-                    <div class="platform-icon">🐧</div>
-                    <h3>Linux</h3>
-                    <div class="download-links">
-                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="download-link">
+                <div class="i3x-download-card">
+                    <div class="i3x-download-card__head">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m6 9 3 3-3 3"/><path d="M12 15h5"/></svg>
+                        <h3>Linux</h3>
+                    </div>
+                    <div class="i3x-download-links">
+                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="i3x-download-link">
                             AppImage (x64) <code>.AppImage</code>
                         </a>
-                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="download-link">
+                        <a href="https://github.com/ace-technologies-inc/i3X-Explorer/releases" class="i3x-download-link">
                             AppImage (ARM64) <code>.AppImage</code>
                         </a>
                     </div>
@@ -575,50 +731,126 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about">
-        <div class="container">
-            <div class="about-content">
-                <div>
-                    <h2>What is I3X?</h2>
-                    <p>
-                        I3X (Industrial Information Interface eXchange) is a standardized API specification
-                        for accessing manufacturing and industrial data. It provides a unified interface
-                        regardless of the underlying platform—whether OPC UA, MQTT, historians, or cloud services.
-                    </p>
-                    <p>
-                        i3X Explorer makes it easy to connect to any I3X-compliant server and explore
-                        your industrial data without writing code.
-                    </p>
-                    <ul>
-                        <li>Unified API across different industrial platforms</li>
-                        <li>Hierarchical data model with namespaces and types</li>
-                        <li>Real-time subscriptions with quality indicators</li>
-                        <li>Historical data access</li>
-                        <li>Relationship-aware data navigation</li>
-                    </ul>
-                </div>
-                <div class="about-image">
-                    <img src="screenshots/main-window.png" alt="i3X Explorer main window">
-                </div>
+    <!-- About I3X -->
+    <section class="section">
+        <div class="container i3x-about">
+            <div>
+                <h2>What is I3X?</h2>
+                <p>
+                    I3X (Industrial Information Interface eXchange) is a standardized API specification
+                    for accessing manufacturing and industrial data. It provides a unified interface
+                    regardless of the underlying platform, whether OPC UA, MQTT, historians, or cloud services.
+                </p>
+                <p>
+                    i3X Explorer makes it easy to connect to any I3X-compliant server and explore
+                    your industrial data without writing code.
+                </p>
+                <ul class="i3x-checklist">
+                    <li>Unified API across different industrial platforms</li>
+                    <li>Hierarchical data model with namespaces and types</li>
+                    <li>Real-time subscriptions with quality indicators</li>
+                    <li>Historical data access</li>
+                    <li>Relationship-aware data navigation</li>
+                </ul>
+            </div>
+            <div>
+                <a href="screenshots/main-window.png" class="i3x-zoom"><img src="screenshots/main-window.png" alt="i3X Explorer main window" loading="lazy"></a>
             </div>
         </div>
     </section>
+</main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-links">
+    </div><!-- #content -->
+
+    <footer id="colophon" class="site-footer">
+        <div class="container i3x-footer">
+            <div class="i3x-footer__links">
                 <a href="https://github.com/ace-technologies-inc/i3X-Explorer/">GitHub</a>
                 <a href="https://github.com/ace-technologies-inc/i3X-Explorer/issues">Issues</a>
                 <a href="https://www.i3x.dev">API Docs</a>
                 <a href="https://www.github.com/cesmii/i3X">Learn about i3X</a>
             </div>
-            <div class="footer-credit">
+            <div class="i3x-footer__credit">
                 Developed by <a href="../">ACE Technologies Inc</a>
             </div>
         </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 ACE Technologies. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
+</div><!-- #page -->
+
+<dialog class="i3x-lightbox" aria-label="Screenshot viewer">
+    <figure class="i3x-lightbox__figure">
+        <img class="i3x-lightbox__img" src="" alt="">
+        <figcaption class="i3x-lightbox__caption"></figcaption>
+    </figure>
+    <button type="button" class="i3x-lightbox__btn i3x-lightbox__close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <button type="button" class="i3x-lightbox__btn i3x-lightbox__prev" aria-label="Previous screenshot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <button type="button" class="i3x-lightbox__btn i3x-lightbox__next" aria-label="Next screenshot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+</dialog>
+
+<script id="ace-navigation-js" src="../assets/js/navigation.js"></script>
+<script>
+// Screenshot lightbox. Links keep their href so they still work without JS.
+(function () {
+    var box = document.querySelector('.i3x-lightbox');
+    var links = Array.prototype.slice.call(document.querySelectorAll('.i3x-zoom'));
+    if (!box || typeof box.showModal !== 'function' || !links.length) return;
+
+    var img = box.querySelector('.i3x-lightbox__img');
+    var caption = box.querySelector('.i3x-lightbox__caption');
+    var current = 0;
+
+    function show(i) {
+        current = (i + links.length) % links.length;
+        var link = links[current];
+        var thumb = link.querySelector('img');
+        var fig = link.closest('figure');
+        var text = fig && fig.querySelector('figcaption') ? fig.querySelector('figcaption').textContent : thumb.alt;
+        img.src = link.getAttribute('href');
+        img.alt = thumb.alt;
+        caption.textContent = text;
+        var count = document.createElement('span');
+        count.className = 'i3x-lightbox__count';
+        count.textContent = (current + 1) + ' / ' + links.length;
+        caption.appendChild(count);
+    }
+
+    links.forEach(function (link, i) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            show(i);
+            box.showModal();
+        });
+    });
+
+    box.querySelector('.i3x-lightbox__close').addEventListener('click', function () { box.close(); });
+    box.querySelector('.i3x-lightbox__prev').addEventListener('click', function () { show(current - 1); });
+    box.querySelector('.i3x-lightbox__next').addEventListener('click', function () { show(current + 1); });
+
+    // Click on the dimmed area (not the image or buttons) closes.
+    box.addEventListener('click', function (e) {
+        if (e.target === box || e.target.classList.contains('i3x-lightbox__figure')) box.close();
+    });
+
+    box.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+    });
+
+    box.addEventListener('close', function () { links[current].focus(); });
+})();
+</script>
 <script>
 // Opened from disk (file://): point directory links at their index.html.
 if (location.protocol === 'file:') {
